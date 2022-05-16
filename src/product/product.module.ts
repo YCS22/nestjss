@@ -10,6 +10,6 @@ import { ProductsService } from './product.service';
     MongooseModule.forFeature([{ name: 'Product', schema: ProductSchema }]),
   ],
   controllers: [ProductsController],
-  providers: [ProductsService, { provide: APP_GUARD, useClass: RolesGuard }],
+  providers: [ProductsService],
 })
 export class ProductModule {}

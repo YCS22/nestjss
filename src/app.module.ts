@@ -5,6 +5,7 @@ import { AuthModule } from './auth/auth.module';
 import { ProductModule } from './product/product.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UsersModule } from './users/users.module';
+import { SponsorModule } from './sponsor/sponsor.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { UsersModule } from './users/users.module';
       'mongodb+srv://yigit:1234@cluster0.s6kz9.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
     ),
     UsersModule,
+    SponsorModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -13,6 +13,7 @@ import { ProductsService } from './product.service';
 import { AuthGuard } from '@nestjs/passport';
 import { Roles } from 'src/roles/roles.decorator';
 import { Role } from 'src/roles/role.enum';
+import { RolesGuard } from 'src/roles/roles.guard';
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
@@ -32,8 +33,8 @@ export class ProductsController {
   }
 
   @Get()
-  @UseGuards(AuthGuard('jwt'))
-  @Roles(Role.Admin)
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles(Role.User)
   async getAllProducts() {
     return await this.productsService.getProducts();
   }
