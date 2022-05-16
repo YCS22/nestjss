@@ -3,6 +3,21 @@ export enum Role {
   Admin = 'admin',
 }
 
+export class Article {
+  id: number;
+  isPublished: boolean;
+  authorId: number;
+}
+
 export class User {
-  roles: Role[];
+  id: number;
+  isAdmin: boolean;
+}
+
+export enum Action {
+  Manage = 'manage',
+  Create = 'create',
+  Read = 'read',
+  Update = 'update',
+  Delete = 'delete',
 }

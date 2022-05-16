@@ -6,6 +6,7 @@ import { ProductModule } from './product/product.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UsersModule } from './users/users.module';
 import { SponsorModule } from './sponsor/sponsor.module';
+import { CaslModule } from './casl/casl.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { SponsorModule } from './sponsor/sponsor.module';
     ),
     UsersModule,
     SponsorModule,
+    CaslModule,
   ],
   controllers: [AppController],
   providers: [AppService],

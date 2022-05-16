@@ -18,4 +18,16 @@ export class UsersService {
     const result = await newUser.save();
     return result?.name;
   }
+
+  async findOne(sub: string) {
+    const users = await this.userModel.find().exec();
+
+    const userIndex = users.findIndex((prod) => {
+      return prod.sub == sub;
+    });
+
+    const user = users[userIndex];
+
+    return user;
+  }
 }
