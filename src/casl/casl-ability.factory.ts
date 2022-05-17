@@ -6,15 +6,23 @@ import {
   InferSubjects,
 } from '@casl/ability';
 import { Injectable } from '@nestjs/common';
-import { Action, Article, User } from 'src/roles/role.enum';
+import { Article, User } from 'src/roles/role.enum';
 
-type Subjects = InferSubjects<typeof Article | typeof User> | 'all';
+export enum Action {
+  Manage = 'manage',
+  Create = 'create',
+  Read = 'read',
+  Update = 'update',
+  Delete = 'delete',
+}
+
+export type Subjects = InferSubjects<typeof Article | typeof User> | 'all';
 
 export type AppAbility = Ability<[Action, Subjects]>;
 
 @Injectable()
 export class CaslAbilityFactory {
-  createForUser(user: User) {
+  defineAbility(user: User) {
     const { can, cannot, build } = new AbilityBuilder<
       Ability<[Action, Subjects]>
     >(Ability as AbilityClass<AppAbility>);
@@ -23,6 +31,7 @@ export class CaslAbilityFactory {
       can(Action.Manage, 'all'); // read-write access to everything
     } else {
       can(Action.Read, 'all'); // read-only access to everything
+      cannot(Action.Create, 'all').because('you just cant');
     }
 
     can(Action.Update, Article, { authorId: user.id });

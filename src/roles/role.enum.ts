@@ -12,6 +12,8 @@ export class Article {
 export class User {
   id: number;
   isAdmin: boolean;
+  roles?: Role[];
+  sub?: string;
 }
 
 export enum Action {

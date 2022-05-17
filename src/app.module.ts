@@ -7,6 +7,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { UsersModule } from './users/users.module';
 import { SponsorModule } from './sponsor/sponsor.module';
 import { CaslModule } from './casl/casl.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { CaslModule } from './casl/casl.module';
     UsersModule,
     SponsorModule,
     CaslModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],
