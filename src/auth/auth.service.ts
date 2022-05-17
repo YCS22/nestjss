@@ -7,13 +7,19 @@ import {
   CognitoUserPool,
   CognitoUserAttribute,
 } from 'amazon-cognito-identity-js';
+import { UserService } from 'src/user/user.service';
+import { UserDto } from 'src/user/user.dto';
 
 @Injectable()
 export class AuthService {
   private userPool: CognitoUserPool;
+
   // eslint-disable-next-line @typescript-eslint/ban-types
   private sessionUserAttributes: {};
-  constructor(private readonly authConfig: AuthConfig) {
+  constructor(
+    private readonly authConfig: AuthConfig,
+    private readonly userService: UserService,
+  ) {
     this.userPool = new CognitoUserPool({
       UserPoolId: this.authConfig.userPoolId,
       ClientId: this.authConfig.clientId,
@@ -21,13 +27,15 @@ export class AuthService {
   }
   registerUser(registerRequest: {
     name: string;
+    surname: string;
+    username: string;
     email: string;
     password: string;
   }) {
-    const { name, email, password } = registerRequest;
+    const { name, surname, username, email, password } = registerRequest;
     return new Promise((resolve, reject) => {
       return this.userPool.signUp(
-        name,
+        username,
         password,
         [new CognitoUserAttribute({ Name: 'email', Value: email })],
         null,
@@ -35,10 +43,52 @@ export class AuthService {
           if (!result) {
             reject(err);
           } else {
-            resolve(result.user);
+            console.log(result.userSub);
+            this.userService.insertUser(
+              result.userSub,
+              username,
+              email,
+              name,
+              surname,
+              password,
+            );
+            resolve(result);
           }
         },
       );
+    });
+  }
+
+  deleteUser(username: string, body: UserDto) {
+    console.log(username, body.password, 'sadsad');
+    const password = body.password;
+    const userData = {
+      Username: username,
+      Pool: this.userPool,
+    };
+    const authenticationDetails = new AuthenticationDetails({
+      Username: username,
+      Password: password,
+    });
+
+    const cognitoUser = new CognitoUser(userData);
+
+    const newUser = new CognitoUser(userData);
+    return new Promise((resolve, reject) => {
+      return newUser.authenticateUser(authenticationDetails, {
+        onSuccess: (result) => {
+          this.userPool.getCurrentUser().deleteUser(function (err, result) {
+            if (err) {
+              console.log(err);
+              return err;
+            }
+            console.log('call result: ' + result);
+          });
+        },
+        onFailure: (err) => {
+          reject(err);
+        },
+      });
     });
   }
 

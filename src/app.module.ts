@@ -8,6 +8,8 @@ import { UsersModule } from './users/users.module';
 import { SponsorModule } from './sponsor/sponsor.module';
 import { CaslModule } from './casl/casl.module';
 import { UserModule } from './user/user.module';
+import { ProfileModule } from './profile/profile.module';
+import { AdressModule } from './adress/adress.module';
 
 @Module({
   imports: [
@@ -20,6 +22,8 @@ import { UserModule } from './user/user.module';
     SponsorModule,
     CaslModule,
     UserModule,
+    ProfileModule,
+    AdressModule,
   ],
   controllers: [AppController],
   providers: [AppService],

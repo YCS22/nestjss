@@ -6,17 +6,16 @@ import {
   forwardRef,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { UsersService } from 'src/users/users.service';
-import { Role, User } from './role.enum';
+import { UserService } from 'src/user/user.service';
+import { Role } from './role.enum';
 import { ROLES_KEY } from './roles.decorator';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
   constructor(
     private reflector: Reflector,
-
-    @Inject(forwardRef(() => UsersService))
-    private userService: UsersService,
+    @Inject(forwardRef(() => UserService))
+    private userService: UserService,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {

@@ -1,6 +1,9 @@
 export enum Role {
   User = 'user',
   Admin = 'admin',
+  SuperAdmin = 'superadmin',
+  Customer = 'customer',
+  Expert = 'expert',
 }
 
 export class Article {
