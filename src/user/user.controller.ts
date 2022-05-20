@@ -10,6 +10,7 @@ import {
 } from '@nestjs/common';
 import { ContextIdFactory } from '@nestjs/core';
 import { AuthGuard } from '@nestjs/passport';
+import { AddressDto } from 'src/user/address.dto';
 import { AuthService } from 'src/auth/auth.service';
 import { Role } from 'src/roles/role.enum';
 import { Roles } from 'src/roles/roles.decorator';
@@ -30,7 +31,7 @@ export class UserController {
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles(Role.Customer)
   async getSingleProfile(@AuthUser() user: any): Promise<any> {
-    const singleUser = await this.userService.findOne(user.sub);
+    const singleUser = await this.userService.getProfile(user.sub);
     return singleUser;
   }
 
@@ -52,5 +53,44 @@ export class UserController {
     //   body,
     // );
     return res;
+  }
+
+  @Get('addresses')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles(Role.Customer)
+  async GetAllAddress(@AuthUser() user: any) {
+    return await this.userService.getAllAddres(user.sub);
+  }
+
+  @Get('address/:id')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles(Role.Customer)
+  async SingleAddres(@Param() params, @AuthUser() user: any) {
+    return await this.userService.getSingleAddress(user.sub, params.id);
+  }
+
+  @Post('address')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles(Role.Customer)
+  async AddAdress(@Body() body: AddressDto, @AuthUser() user: any) {
+    return await this.userService.addAddres(body, user.sub);
+  }
+
+  @Patch('address/:id')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles(Role.Customer)
+  async updateAddress(
+    @Param() params,
+    @AuthUser() user: any,
+    @Body() body: AddressDto,
+  ) {
+    return await this.userService.updateAddress(user.sub, params.id, body);
+  }
+
+  @Delete('address/:id')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles(Role.Customer)
+  async deleteAddress(@Param() params, @AuthUser() user: any) {
+    return await this.userService.deleteAddres(user.sub, params.id);
   }
 }

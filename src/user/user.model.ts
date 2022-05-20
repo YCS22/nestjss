@@ -1,5 +1,8 @@
 import * as mongoose from 'mongoose';
 
+export const CitySchema = new mongoose.Schema({
+  name: { type: String },
+});
 export const UserSchema = new mongoose.Schema({
   _id: { type: String, required: true },
   username: { type: String, required: true },
@@ -9,6 +12,17 @@ export const UserSchema = new mongoose.Schema({
   name: { type: String },
   surname: { type: String },
   avatar: { type: String },
+  cities: [CitySchema],
+  addresses: [
+    {
+      name: { type: String },
+      country: { type: String },
+      region: { type: String },
+      street: { type: String },
+      apartment: { type: String },
+      no: { type: Number },
+    },
+  ],
 });
 
 export interface User {
