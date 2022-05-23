@@ -8,15 +8,19 @@ import {
 } from '@nestjs/common';
 import { AppService } from './app.service';
 import { AuthGuard } from '@nestjs/passport';
+import { UserService } from './user/user.service';
+import { AdminService } from './admin/admin.service';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(
+    private readonly appService: AppService,
+    private readonly adminService: AdminService,
+  ) {}
 
-  @Get()
+  @Get('/categories')
   @Header('Content-Type', 'text/html')
-  getHello(@Request() req): string {
-    console.log(req.user);
-    return this.appService.getHello();
+  getHello() {
+    return this.adminService.getCategory();
   }
 }

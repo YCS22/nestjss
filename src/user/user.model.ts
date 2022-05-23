@@ -1,6 +1,6 @@
 import * as mongoose from 'mongoose';
 
-export const CitySchema = new mongoose.Schema({
+export const CitySchema: any = new mongoose.Schema({
   name: { type: String },
 });
 export const UserSchema = new mongoose.Schema({
@@ -12,7 +12,7 @@ export const UserSchema = new mongoose.Schema({
   name: { type: String },
   surname: { type: String },
   avatar: { type: String },
-  cities: [CitySchema],
+  cities: CitySchema,
   addresses: [
     {
       name: { type: String },
@@ -25,6 +25,7 @@ export const UserSchema = new mongoose.Schema({
   ],
 });
 
+export const School = mongoose.model('PocketUser', UserSchema);
 export interface User {
   _id: string;
   username: string;
