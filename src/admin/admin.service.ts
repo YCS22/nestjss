@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { SubCategoryDto, UpdateSubCategoryDto } from './admin.dto';
+import { CategoryDto, SubCategoryDto, UpdateSubCategoryDto } from './admin.dto';
 
 @Injectable()
 export class AdminService {
@@ -60,6 +60,11 @@ export class AdminService {
     return [...newCategory];
   }
 
+  async findCategory(_id: string) {
+    const category: any = await this.categoryModel.find({ _id }).exec();
+    return category;
+  }
+
   async deleteSubCategory(body: SubCategoryDto) {
     const category: any = await this.categoryModel
       .find({ _id: body.categoryId })
@@ -76,5 +81,15 @@ export class AdminService {
     );
 
     return newCategory;
+  }
+
+  async addRegionToCategory(body: CategoryDto) {
+    const category = await this.findCategory(body.categoryId);
+
+    category[0].region.push({ value: body.region });
+    category[0].save();
+
+    console.log(body);
+    return category;
   }
 }

@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Patch, Post } from '@nestjs/common';
-import { SubCategoryDto, UpdateSubCategoryDto } from './admin.dto';
+import { CategoryDto, SubCategoryDto, UpdateSubCategoryDto } from './admin.dto';
 import { AdminService } from './admin.service';
 
 @Controller('admin')
@@ -29,5 +29,10 @@ export class AdminController {
   @Delete('/subcategory')
   async deleteSubCategory(@Body() body: SubCategoryDto) {
     return await this.adminService.deleteSubCategory(body);
+  }
+
+  @Post('/region')
+  async addRegion(@Body() body: CategoryDto) {
+    return await this.adminService.addRegionToCategory(body);
   }
 }
