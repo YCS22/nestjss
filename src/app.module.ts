@@ -12,7 +12,7 @@ import { OrderModule } from './order/order.module';
     AuthModule,
 
     MongooseModule.forRoot(
-      'mongodb+srv://yigit:1234@cluster0.s6kz9.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
+      '',
     ),
     UserModule,
     AdminModule,
